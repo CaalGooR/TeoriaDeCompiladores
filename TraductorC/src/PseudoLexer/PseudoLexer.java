@@ -27,12 +27,13 @@ public class PseudoLexer extends Lexer{
 		LEER("leer"),
 		ESCRIBIR("escribir"),
 		COMA(","),
+		DOSPUNTOS(":"),
 		PARENTESISIZQ("\\("),
 		PARENTESISDER("\\)"),
 		ESPACIOS("[ \t\f\r\n]+"),
+		TIPO("entero|flotante"),
 		VARIABLE("[a-zA-Z][a-zA-Z0-9]*"),
-		ERROR(".+"),
-		TIPO("entero | flotante");
+		ERROR(".+");
 		
 		public final String pattern;
 		
@@ -58,6 +59,7 @@ public class PseudoLexer extends Lexer{
 	}
 	
 	public ArrayList<Token> lex(String input) {
+		
 		ArrayList<Token> tokens = new ArrayList<Token>();
 		StringBuffer tokenPatternsBuffer = new StringBuffer();
 		
@@ -73,6 +75,7 @@ public class PseudoLexer extends Lexer{
 					continue;
 				else if(matcher.group(t.name()) != null) {
 					tokens.add(new Token(t, matcher.group(t.name())));
+					//System.out.println("Token = "+t.toString());
 					break;
 				}
 			}
@@ -98,6 +101,7 @@ public class PseudoLexer extends Lexer{
 				else if(matcher.group(t.name()) != null) {
 					//tokens.add(new Token(t, matcher.group(t.name())!= null) {
 					  tokens.add(new Token(t,matcher.group(t.name())));
+					  System.out.println("Token = "+t.toString());
 					break;	
 				}
 			}

@@ -10,10 +10,12 @@ public class Main {
 	private static PseudoParser parser;
 
 	public static void main(String[] args) throws IOException {
-		scanner = new Scanner(new File("R:\\TraductorC\\src\\PseudoCodigo.txt"));
+		scanner = new Scanner(new File("C:\\Users\\HOLA\\Documents\\GitHub\\TeoriaDeCompiladores\\TraductorC\\src\\PseudoCodigo.txt"));
 		String content = scanner.useDelimiter("\\Z").next();
 		PseudoLexer pseuLexer = new PseudoLexer(content);
-		parser = new PseudoParser(pseuLexer);
+		String TokenS = "inicio-programa";
+		//pseuLexer.lex(TokenS);
+		//parser = new PseudoParser(pseuLexer);
 	}
 
 }

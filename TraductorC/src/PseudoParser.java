@@ -11,6 +11,9 @@ import java.io.BufferedWriter;
 
 public class PseudoParser extends Parser {
 	
+	private Symbol symbol;
+	private SymbolTable symbolTable;
+	
 	public PseudoParser(PseudoLexer input) { 
 		super(input); 
 		programa();
@@ -21,10 +24,12 @@ public class PseudoParser extends Parser {
 		match("INICIOPROGRAMA");
 		traductC += "#include<stdio.lib>\n\n"
 								+ "void main(){ \n\n";
+		
+		declaraciones();
 		enunciados();
 		traductC += "}";
 		try{
-			File file = new File ("R:\\TraductorC\\src\\Traduccion.c");
+			File file = new File ("C:\\\\Users\\\\HOLA\\\\Documents\\\\GitHub\\\\TeoriaDeCompiladores\\\\TraductorC\\\\src\\\\Traduccion.c");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file)); 
 			out.write(traductC);
 			out.close();
@@ -161,4 +166,21 @@ public class PseudoParser extends Parser {
 		valor();
 	}
 	
+	private void declaraciones() {
+		lista_variables();
+		match("DOSPUNTOS");
+		match("TIPO");
+		if (lookahead.type.toString().equals("VARIABLE"))
+			declaraciones();
+		
+	}
+	
+	private void lista_variables() {
+		match("VARIABLE");
+		if (lookahead.type.toString().equals("COMA")) {
+			consume();
+			lista_variables();
+		}
+			
+	}
 }

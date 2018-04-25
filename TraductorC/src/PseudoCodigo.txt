@@ -1,4 +1,8 @@
 inicio-programa
+
+	a,i:entero
+	x,n:flotante
+
 	leer  "Cuantas calificaciones", n
 	prom = 0
 
