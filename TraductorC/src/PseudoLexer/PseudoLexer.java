@@ -101,7 +101,7 @@ public class PseudoLexer extends Lexer{
 				else if(matcher.group(t.name()) != null) {
 					//tokens.add(new Token(t, matcher.group(t.name())!= null) {
 					  tokens.add(new Token(t,matcher.group(t.name())));
-					  System.out.println("Token = "+t.toString());
+					  //System.out.println("Token = "+t.toString());
 					break;	
 				}
 			}

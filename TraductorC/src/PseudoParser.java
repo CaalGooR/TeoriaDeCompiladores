@@ -6,13 +6,21 @@
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 import PseudoLexer.PseudoLexer;
+import PseudoLexer.PseudoLexer.Token;
+import PseudoLexer.PseudoLexer.TokenType;
+
 import java.io.BufferedWriter;
 
 public class PseudoParser extends Parser {
 	
-	private Symbol symbol;
-	private SymbolTable symbolTable;
+	private VariableSymbol vSymbol;
+	private SymbolTable symbolTable = new SymbolTable() ;
+	private ArrayList<String> variables = new ArrayList<String>();
 	
 	public PseudoParser(PseudoLexer input) { 
 		super(input); 
@@ -29,7 +37,7 @@ public class PseudoParser extends Parser {
 		enunciados();
 		traductC += "}";
 		try{
-			File file = new File ("C:\\\\Users\\\\HOLA\\\\Documents\\\\GitHub\\\\TeoriaDeCompiladores\\\\TraductorC\\\\src\\\\Traduccion.c");
+			File file = new File ("R:\\GitHub\\MayapanTrainingPrototype\\TeoriaDeCompiladores\\TraductorC\\src\\Traduccion.c");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file)); 
 			out.write(traductC);
 			out.close();
@@ -73,6 +81,7 @@ public class PseudoParser extends Parser {
 	
 	private void asignacion() {
 		traductC += ""+lookahead.data;
+		existe(lookahead.data);
 		match("VARIABLE");
 		traductC += lookahead.data;
 		match("IGUAL");
@@ -83,7 +92,6 @@ public class PseudoParser extends Parser {
 	private void operacion() {
 		valor();
 		if(lookahead.type.toString().equals("OPARITMETICO")) {
-
 			traductC += lookahead.data;
 			consume();
 			valor();
@@ -91,7 +99,12 @@ public class PseudoParser extends Parser {
 	}
 	
 	private void valor() {
-		if (lookahead.type.toString().equals("NUMERO")||lookahead.type.toString().equals("VARIABLE")){
+		if (lookahead.type.toString().equals("NUMERO")){
+			traductC += lookahead.data;
+			consume();
+		}
+		else if (lookahead.type.toString().equals("VARIABLE")){
+			existe(lookahead.data);
 			traductC += lookahead.data;
 			consume();
 		}
@@ -106,6 +119,7 @@ public class PseudoParser extends Parser {
 		traductC += lookahead.data;
 		match("COMA");
 		traductC += lookahead.data;
+		existe(lookahead.data);
 		match("VARIABLE"); 
 		traductC += ")";
 	}
@@ -119,6 +133,7 @@ public class PseudoParser extends Parser {
 			traductC += lookahead.data;
 			consume();
 			traductC += lookahead.data;
+			existe(lookahead.data);
 			match("VARIABLE");
 		}
 		traductC += ")";
@@ -169,6 +184,7 @@ public class PseudoParser extends Parser {
 	private void declaraciones() {
 		lista_variables();
 		match("DOSPUNTOS");
+		agregaSymbol();
 		match("TIPO");
 		if (lookahead.type.toString().equals("VARIABLE"))
 			declaraciones();
@@ -176,11 +192,40 @@ public class PseudoParser extends Parser {
 	}
 	
 	private void lista_variables() {
+		
+		String token = lookahead.data;
+		Symbol tipo = symbolTable.resolve(lookahead.data);
+		if (lookahead.type.toString().equals("VARIABLE") && tipo == null)
+			variables.add(token);
+		else
+			declaraciones();
+		
 		match("VARIABLE");
+		
 		if (lookahead.type.toString().equals("COMA")) {
 			consume();
 			lista_variables();
 		}
 			
 	}
+	
+	private void agregaSymbol() {
+		int i = 0;
+		Symbol tipo = symbolTable.resolve(lookahead.data);
+		if (tipo != null){
+			for (String s : variables) {
+				vSymbol = new VariableSymbol(variables.get(i++),tipo);
+				symbolTable.define(vSymbol);
+			}
+		}
+	}
+	
+	private void existe(String token) {
+		
+		Symbol tipo = symbolTable.resolve(lookahead.data);
+		if (tipo == null) 
+			throw new Error("Error cerca de "+lookahead.data);
+			
+	}
+	
 }

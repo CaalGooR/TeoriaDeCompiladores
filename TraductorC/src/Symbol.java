@@ -6,8 +6,8 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
 ***/
-public class Symbol { // A generic programming language symbol
-    String name;      // All symbols at least have a name
+public class Symbol implements Type { // A generic programming language symbol
+    String name;      				 // All symbols at least have a name
     Type type;
     public Symbol(String name) { this.name = name; }
     public Symbol(String name, Type type) {this(name); this.type = type;}

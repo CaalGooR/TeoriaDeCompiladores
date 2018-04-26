@@ -1,7 +1,7 @@
 inicio-programa
 
-	a,i:entero
-	x,n:flotante
+	prom,i,z : entero
+	x,n,cal : flotante
 
 	leer  "Cuantas calificaciones", n
 	prom = 0
