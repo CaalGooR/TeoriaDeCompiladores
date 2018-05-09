@@ -20,7 +20,6 @@ public class Main {
 		
 		currentScope = new GlobalScope();
 		
-		//P.push(currentScope);
 		currentScope.define(new BuiltInTypeSymbol("int"));
 		currentScope.define(new BuiltInTypeSymbol("float"));
 		currentScope.define(new BuiltInTypeSymbol("void"));
@@ -31,7 +30,7 @@ public class Main {
 		Symbol aux = new MethodSymbol("f");
 		currentScope.define(aux);
 		currentScope = (Scope) aux;
-		//P.push(currentScope);
+
 	}
 
 }

@@ -1,22 +1,23 @@
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseScope implements Scope{
+	
+	public Map<String, Symbol> baseScope = new HashMap<String, Symbol> ();
 
 	@Override
 	public String getScopeName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Scope getEnclosingScope() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void define(Symbol sym) {
-		// TODO Auto-generated method stub
-		
+		baseScope.put(sym.name, sym);
 	}
 
 	@Override

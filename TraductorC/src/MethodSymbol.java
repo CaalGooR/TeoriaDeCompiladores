@@ -1,5 +1,9 @@
+import java.util.HashMap;
+import java.util.Map;
 
 public class MethodSymbol extends Symbol implements Scope {
+	
+	public Map<String, Symbol> SymOfFunctions = new HashMap<String, Symbol>();
 
 	public MethodSymbol(String name, Type type) {
 		super(name, type);
@@ -8,31 +12,26 @@ public class MethodSymbol extends Symbol implements Scope {
 	
 	public MethodSymbol(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String getScopeName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Scope getEnclosingScope() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void define(Symbol sym) {
-		// TODO Auto-generated method stub
-		
+		SymOfFunctions.put(sym.name, sym);
 	}
 
 	@Override
 	public Symbol resolve(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return SymOfFunctions.get(name);
 	}
 
 }

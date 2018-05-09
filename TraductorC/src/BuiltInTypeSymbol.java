@@ -7,6 +7,7 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
 ***/
 /** A symbol for built in types such int, float primitive types */
+
 public class BuiltInTypeSymbol extends Symbol implements Type {
     public BuiltInTypeSymbol(String name) { super(name); }
 }
